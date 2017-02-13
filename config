@@ -1,0 +1,4 @@
+[NessusConfig]
+accessKey : 
+secretKey : 
+url : https://securitycheckup.lostar.com:8834

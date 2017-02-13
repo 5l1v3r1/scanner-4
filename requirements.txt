@@ -1,0 +1,4 @@
+requests==2.13.0
+pyfiglet==0.7.5
+blessings==1.6
+ipaddress==1.0.18
