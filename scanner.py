@@ -383,13 +383,10 @@ def getPluginDetails(plugin_id):
 			vuln.port = port.split()[0]
 			for host in plugin_detail['ports'][port]:
 				vuln.ips.add(host['hostname'])
-				print host['hostname']
 			
 			info = add(info,vuln)
 	
-	for i in info:
-		print i.port
-		print i.ips
+
 
 	return [info,metasploit_name]
 
@@ -406,7 +403,6 @@ def checkVulnerabilities():
 		if vuln['severity'] > 1:
 			plugin_name = vuln["plugin_name"]
 			plugin_id = vuln["plugin_id"]
-			print plugin_name
 			[plugin_details,metasploit_name] = getPluginDetails(plugin_id)
 			report_file.write(plugin_name + utils.newline)
 			if metasploit_name != None:
@@ -524,22 +520,22 @@ def checkServices():
 			port_num = port.split()[0]
 			p = prt(int(port_num))
 			
-			if service_type == utils.WEB_PORT:
+			if service_type == utils.WEB_PORT or service_type == "http_proxy":
 				for host in service['ports'][port]:
 					p.ips.add(host['hostname'])
-				www.ports.append(p)
+				www.ports = add(www.ports,p)
 			elif service_type == utils.SMTP_PORT:
 				for host in service['ports'][port]:
 					p.ips.add(host['hostname'])
-				smtp.ports.append(p)
+				smtp.ports = add(smtp.ports,p)
 			elif service_type == utils.FTP_PORT:
 				for host in service['ports'][port]:
 					p.ips.add(host['hostname'])
-				ftp.ports.append(p)
+				ftp.ports = add(ftp.ports,p)
 			elif service_type == utils.TELNET_PORT:
 				for host in service['ports'][port]:
 					p.ips.add(host['hostname'])
-				telnet.ports.append(p)
+				telnet.ports = add(telnet.ports,p)
 
 	if www.getSize() > 0:
 		checkServiceConnections(www)
